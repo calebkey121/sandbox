@@ -1,3 +1,9 @@
+# MacOS
+.DS_Store
+
+# Advent of code ignores
+advent_of_code/**/*.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,6 +11,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.out
+*.dSYM
 
 # Distribution / packaging
 .Python
