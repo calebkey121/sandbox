@@ -30,10 +30,11 @@
         "preLaunchTask": "clang build active file"
         },
         {
-            "name": "Python Debugger: Python File",
+            "name": "Python Debugger: Python File (file dir)",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}"
+            "program": "${file}",
+            "cwd": "${fileDirname}"
         }
     ]
 }
