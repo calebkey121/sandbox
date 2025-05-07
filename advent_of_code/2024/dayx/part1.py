@@ -1,17 +1,22 @@
 import os
 
-def parse_input_files(input_filenames: list, input_directory: str) -> dict:
-    parsed_input = {}
-    for filename in input_filenames:
-        path = os.path.join(input_directory, filename)
-        with open(path) as file:
-            lines = file.readlines()
+# Readlines from given file
+def get_file_data(filename: str, input_directory: str) -> list:
+    path = os.path.join(input_directory, filename)
+    with open(path) as file:
+        lines = file.readlines()
+        puzzle_input = [ line.strip() for line in lines ]      
+    return puzzle_input
 
-            parsed_input[filename] = lines
-                
+# Put the puzzle input into the form you want
+def parse_input(puzzle_input: list):
+    parsed_input = puzzle_input
+
     return parsed_input
 
-def solve(input):
+# Solve the puzzle
+def solve(puzzle_input: list):
+    parsed_input = parse_input(puzzle_input)
     return 0
 
 def main():
@@ -20,11 +25,11 @@ def main():
         "test_input.txt",
         "puzzle_input.txt",
     ]
-    parsed_input = parse_input_files(input_filenames, input_directory)
-    for test_case, parsed_input in parsed_input.items():
-        result = solve(parsed_input)
+    for file in input_filenames:
+        puzzle_input = get_file_data(file, input_directory)
+        result = solve(puzzle_input)
 
-        print(f"For input '{test_case}' got {result}")
+        print(f"For input '{file}' got {result}")
 
 if __name__ == "__main__":
     main()

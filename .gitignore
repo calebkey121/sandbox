@@ -3,6 +3,7 @@
 
 # Advent of code ignores
 advent_of_code/**/*.txt
+help.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
