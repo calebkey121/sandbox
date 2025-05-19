@@ -161,20 +161,38 @@ class PuzzleMap:
         dx, dy = delta(curr_direction)
         hypothetical_object = Coord(x + dx, y + dy)
 
-        # Second - if we do this in a loop and end up in a tile/direction we've been before, we found a loop
-        point = curr_tile
-        dir = curr_direction
-        visited = []
-        for _ in range(1000):
-            visited.append((point, dir))
-            if self.on_edge(point):
+        # Second - we will do tortise and hare, if they ever meet up that makes a loop!
+        tortoise = hare = curr_tile
+        # Once for tortise...
+        tortoise_dir = turn(curr_direction)
+        tortoise = self.find_next_point(tortoise, tortoise_dir, hypothetical_object)
+        # Twice for hare!
+        hare_dir = turn(curr_direction)
+        hare = self.find_next_point(hare, hare_dir, hypothetical_object)
+        if self.on_edge(hare):
+            return
+        hare_dir = turn(hare_dir)
+        hare = self.find_next_point(hare, hare_dir, hypothetical_object)
+        
+        counter = 0
+        maxCounter = 100000
+        while ( tortoise != hare ) or counter >= maxCounter:
+            if self.on_edge(tortoise) or self.on_edge(hare):
                 return # no way theres a loop
-            dir = turn(dir)
-            point = self.find_next_point(point, dir, hypothetical_object=hypothetical_object)
-            # Finally, did we end back up in the original spot?
-            if ((point, dir) in visited):
-                self.loop_objs.add(hypothetical_object)
-                return
+            
+            # Once for tortise...
+            tortoise_dir = turn(tortoise_dir)
+            tortoise = self.find_next_point(tortoise, tortoise_dir, hypothetical_object)
+            # Twice for hare!
+            hare_dir = turn(hare_dir)
+            hare = self.find_next_point(hare, hare_dir, hypothetical_object)
+            hare_dir = turn(hare_dir)
+            hare = self.find_next_point(hare, hare_dir, hypothetical_object)
+
+            counter += 1
+
+        if tortoise == hare and tortoise_dir == hare_dir:
+            self.loop_objs.add(hypothetical_object)
 
     def on_edge(self, point) -> bool:
         if point.x == 0 or point.y == 0 or point.x == self.map_width - 1 or point.y == self.map_height - 1:
